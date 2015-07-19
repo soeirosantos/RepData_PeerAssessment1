@@ -1,22 +1,39 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 ## Setting up the environment
 
-```{r setup}
+
+```r
 rm(list=ls(all=TRUE))
 
 Sys.setlocale("LC_TIME","en_US.UTF-8")
+```
 
+```
+## [1] "en_US.UTF-8"
+```
+
+```r
 if (!("dplyr" %in% rownames(installed.packages()))){
     install.packages("dplyr", repos="http://cran.rstudio.com/")
 }
 library(dplyr)
+```
 
+```
+## 
+## Attaching package: 'dplyr'
+## 
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+## 
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+```
+
+```r
 if (!("lattice" %in% rownames(installed.packages())) ){
     install.packages("lattice", repos="http://cran.rstudio.com/")
 }
@@ -25,7 +42,8 @@ library(lattice)
 
 ## Loading and preprocessing the data
 
-```{r, fig.path="figure/"}
+
+```r
 if (!file.exists('activity.csv')) {
     unzip(zipfile = 'activity.zip')
 }
@@ -34,17 +52,41 @@ activity <- read.csv('activity.csv')
 activity <- mutate(activity, date = as.Date(date, "%Y-%m-%d"))
 
 str(activity)
+```
 
+```
+## 'data.frame':	17568 obs. of  3 variables:
+##  $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+##  $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+```
+
+```r
 head(activity)
+```
 
+```
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
+```
+
+```r
 dim(activity)
+```
 
+```
+## [1] 17568     3
 ```
 
 ## What is mean total number of steps taken per day?
 
-```{r, fig.path="figure/"}
 
+```r
 activityPerDay <- activity %>% 
                   select(steps, date) %>% 
                   group_by(date) %>% 
@@ -67,13 +109,14 @@ legend('topright'
           ,legend = c(paste('Mean: ', round(meanStepsPerDay, 0))
                      ,paste('Median: ', round(medianStepsPerDay, 0))) 
       )
-
 ```
+
+![](figure/unnamed-chunk-2-1.png) 
 
 ## What is the average daily activity pattern?
 
-```{r, fig.path="figure/"}
 
+```r
 activityPerInterval <- activity %>%
                        select(steps, interval) %>%
                        group_by(interval) %>%
@@ -92,13 +135,14 @@ points(x = maxStep$interval
       ,col = "green", pch = 19)
 
 legend("topright", text.col = "green", bty = "n", legend=c(paste("Max number of steps: ", round(maxStep$steps, 0)), paste("at 5-minute interval: ", round(maxStep$interval, 0)) ))
-
 ```
+
+![](figure/unnamed-chunk-3-1.png) 
 
 ## Imputing missing values
 
-```{r, fig.path="figure/"}
 
+```r
 filledActivity <- activity
 
 # For each NA result in steps, get
@@ -133,10 +177,12 @@ legend('topright'
       )
 ```
 
+![](figure/unnamed-chunk-4-1.png) 
+
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r, fig.path="figure/"}
 
+```r
 dayType <- weekdays(filledActivity$date) %in% c('Saturday','Sunday')
 
 filledActivity$dayType <- as.factor(ifelse(dayType,'weekend', 'weekday'))
@@ -153,4 +199,6 @@ xyplot(steps ~ interval | dayType
        ,type = 'l', xlab = 'Interval'
        ,ylab = 'Number of Steps')
 ```
+
+![](figure/unnamed-chunk-5-1.png) 
 
