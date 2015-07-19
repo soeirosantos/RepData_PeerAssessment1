@@ -1,4 +1,9 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+output: 
+  html_document:
+    keep_md: true
+---
 
 ## Setting up the environment
 
@@ -111,7 +116,7 @@ legend('topright'
       )
 ```
 
-![](figure/unnamed-chunk-2-1.png) 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
 
 ## What is the average daily activity pattern?
 
@@ -137,7 +142,7 @@ points(x = maxStep$interval
 legend("topright", text.col = "green", bty = "n", legend=c(paste("Max number of steps: ", round(maxStep$steps, 0)), paste("at 5-minute interval: ", round(maxStep$interval, 0)) ))
 ```
 
-![](figure/unnamed-chunk-3-1.png) 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 
 ## Imputing missing values
 
@@ -177,7 +182,7 @@ legend('topright'
       )
 ```
 
-![](figure/unnamed-chunk-4-1.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
@@ -200,5 +205,5 @@ xyplot(steps ~ interval | dayType
        ,ylab = 'Number of Steps')
 ```
 
-![](figure/unnamed-chunk-5-1.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png) 
 
